@@ -13,18 +13,21 @@ __all__ = ['get_weather_client']
 
 class WeatherAPIClient:
 
-    WEATHER_URL = 'https://api.openweathermap.org/data/2.5/weather?'
+    WEATHER_URL = 'https://api.openweathermap.org/data/2.5/weather'
 
     def __init__(self, api_token: str):
         self.appid = api_token
 
     def get_weather_for_city(self, city: str, lang: str, units: str):
-        lang = 'en' if lang is None else lang
-        units = 'metric' if units is None else units
         try:
-            response = requests.request(
-                method='GET',
-                url=f"{self.WEATHER_URL}q={city}&lang={lang}&units={units}&appid={self.appid}"
+            response = requests.get(
+                url=self.WEATHER_URL,
+                params={
+                    'q': city,
+                    'lang': lang or 'en',
+                    'units': units or 'metric',
+                    'appid': self.appid
+                }
             )
             response.raise_for_status()
         except requests.HTTPError:
@@ -56,7 +59,7 @@ class RedisCachedWeatherAPIClient:
         if hasattr(self.client, attr):
             def wrapper(*args, **kwargs):
 
-                redis_key = ['minigrants-rearing', attr]
+                redis_key = ['weather-api', attr]
                 redis_key.extend(args)
                 redis_key.extend(kwargs.values())
                 redis_key = ', '.join([str(r) for r in redis_key])

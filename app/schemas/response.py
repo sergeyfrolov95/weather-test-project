@@ -5,8 +5,8 @@ __all__ = ['CurrentWeatherModel']
 
 class CurrentWeatherModel(BaseModel):
 
-    city: str = Field(description='Город')
-    cur_temp: float = Field(description='Текущая температура в градусах Цельсия')
-    humidity: int = Field(description='Текущая влажность в процентах')
-    pressure: int = Field(description='Текущее давление в мм ртутного столба')
-    wind: float = Field(description='Текущая скорость ветра в м/c')
+    city: str = Field(description='City')
+    cur_temp: float = Field(description='Current temperature in degrees Celsius')
+    humidity: int = Field(description='Current humidity percentage')
+    pressure: int = Field(description='Current pressure in mmHg')
+    wind: float = Field(description='Current wind speed in m/s')
